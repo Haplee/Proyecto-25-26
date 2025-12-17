@@ -1,149 +1,73 @@
-# Proyecto Final ASIR: Sistema Centralizado de Backups para Configuraciones de Alarmas
+# Proyecto ASIR: Sistema Automatizado de Copias de Seguridad y Gestión Centralizada
 
-## 1. Introducción y Arquitectura
+## 1. Descripción del Proyecto
 
-Este proyecto presenta una solución cliente-servidor robusta y automatizada para la gestión de copias de seguridad de configuraciones críticas de centrales de alarma. El sistema está diseñado para operar en entornos heterogéneos (Windows y Linux) y centraliza los backups en un servidor web seguro, accesible para los técnicos autorizados.
+Este repositorio contiene todos los artefactos del proyecto final del Ciclo Formativo de Grado Superior en **Administración de Sistemas Informáticos en Red (ASIR)**. El proyecto consiste en el diseño e implementación de un sistema centralizado para la gestión y automatización de copias de seguridad de configuraciones de centrales de alarma.
 
-### 1.1. Arquitectura Cliente-Servidor
+El sistema se compone de dos elementos principales:
+-   **Scripts de Cliente:** Agentes ligeros diseñados para ejecutarse en sistemas Windows y Linux, responsables de recopilar, comprimir y enviar las configuraciones al servidor central.
+-   **Servidor de Gestión:** Un servidor web central que recibe, organiza y almacena de forma segura las copias de seguridad enviadas por los clientes.
 
-- **Servidor Central (Linux + Apache + PHP):**
-  - Actúa como el repositorio central y seguro para todos los backups.
-  - Un script PHP (`upload.php`) gestiona la recepción de ficheros, autentica a los clientes mediante un token secreto y organiza las copias en una estructura de directorios lógica (`/cliente/equipo/backup.tar.gz`).
-  - El acceso web al directorio de backups está protegido por autenticación básica (`.htaccess`) y la comunicación se cifra mediante HTTPS.
+La memoria técnica completa del proyecto está documentada en un sitio web estático profesional, también incluido en este repositorio y diseñado para ser desplegado a través de GitHub Pages.
 
-- **Clientes (Agentes en Windows y Linux):**
-  - En cada equipo de cliente (Windows o Linux) se ejecuta un agente ligero (script de PowerShell o Bash).
-  - Este agente se configura como una tarea programada (`cron` en Linux, Programador de Tareas en Windows) para ejecutarse periódicamente.
-  - El script localiza los ficheros de configuración, los comprime, genera un nombre de fichero con fecha y hora, y lo envía de forma segura al servidor central a través de una petición HTTP POST.
+## 2. Estructura del Repositorio
 
-![Diagrama de Arquitectura](httpsd://i.imgur.com/ARQUITECTURA_PLACEHOLDER.png) (*Diagrama conceptual*)
+El repositorio está organizado siguiendo buenas prácticas para garantizar la claridad, mantenibilidad y escalabilidad del proyecto.
 
----
-
-## 2. Relación con los Módulos de ASIR
-
-Este proyecto es una aplicación práctica e integrada de los conocimientos adquiridos en varios módulos del ciclo formativo de ASIR:
-
-- **Implantación de Sistemas Operativos (ISO):** Instalación, configuración y gestión de clientes Windows y Linux. Uso del Programador de Tareas y `cron`.
-- **Planificación y Administración de Redes (PAR):** Diseño de la arquitectura cliente-servidor, direccionamiento IP y configuración de servicios de red.
-- **Fundamentos de Hardware (FH):** Comprensión del almacenamiento y la criticidad de los datos de configuración.
-- **Gestión de Bases de Datos (GBD):** Aunque no usa una BBDD SQL, se aplican principios de integridad y disponibilidad de datos.
-- **Lenguajes de Marcas y Sistemas de Gestión de Información (LMSGI):** El backend PHP y la interacción con el servidor web son conceptos relacionados.
-- **Administración de Sistemas Operativos (ASO):** Scripting avanzado en Bash y PowerShell, gestión de permisos en el sistema de ficheros y automatización de tareas.
-- **Servicios de Red e Internet (SRI):** Configuración de un servidor web Apache, implementación de HTTPS con certificados SSL/TLS y configuración de la autenticación (`.htaccess`).
-- **Seguridad y Alta Disponibilidad (SAD):** Aseguramiento del servidor (hardening), cifrado de comunicaciones, gestión de tokens de autenticación y diseño de una estrategia de recuperación de datos.
-- **Empresa e Iniciativa Emprendedora (EIE):** Planteamiento de una solución a una necesidad empresarial real, con un enfoque en la eficiencia y la seguridad.
-
----
-
-## 3. Manual de Instalación y Configuración
-
-### 3.1. Configuración del Servidor Central (Debian/Ubuntu)
-
-**1. Instalar Apache, PHP y Utilidades:**
-```bash
-sudo apt-get update
-sudo apt-get install -y apache2 php libapache2-mod-php apache2-utils
+```
+.
+├── .github/              # (Opcional) Workflows de CI/CD para automatización.
+│   └── workflows/
+│       └── deploy.yml
+├── docs/                 # Contiene el sitio web estático de la memoria del proyecto.
+│   ├── assets/           # Recursos como imágenes, logos, etc.
+│   │   └── images/
+│   ├── css/              # Hojas de estilo CSS.
+│   │   └── style.css
+│   ├── js/               # Scripts de JavaScript (funcionalidad ligera).
+│   │   └── script.js
+│   └── index.html        # Fichero principal de la memoria del proyecto.
+├── scripts/              # Scripts de automatización para los clientes.
+│   ├── linux/            # Scripts para sistemas operativos basados en Linux.
+│   │   └── backup.sh
+│   └── windows/          # Scripts para sistemas operativos Windows.
+│       └── backup.ps1
+├── .gitignore            # Ficheros y carpetas a ignorar por Git.
+├── LICENSE               # Licencia del proyecto (MIT).
+└── README.md             # Este archivo.
 ```
 
-**2. Crear Estructura de Directorios y Permisos:**
-```bash
-sudo mkdir -p /var/www/backups
-sudo chown www-data:www-data /var/www/backups
-sudo chmod 755 /var/www/backups
-```
+### Descripción de Carpetas y Archivos
 
-**3. Desplegar el Backend (`upload.php`):**
-- Copia el fichero `upload.php` proporcionado a `/var/www/html/`.
-- Edita el fichero y establece un token secreto seguro en la variable `$secretToken`.
-```bash
-sudo mv upload.php /var/www/html/upload.php
-sudo chown www-data:www-data /var/www/html/upload.php
-sudo chmod 644 /var/www/html/upload.php
-```
+-   **`docs/`**: Directorio raíz del sitio web estático. El contenido de esta carpeta está configurado para ser servido directamente por GitHub Pages.
+    -   `index.html`: Punto de entrada de la web, contiene toda la memoria técnica.
+    -   `css/style.css`: Define la apariencia visual y el diseño responsive.
+    -   `js/script.js`: Añade funcionalidades interactivas menores, como el scroll suave.
+    -   `assets/images/`: Almacena las imágenes y otros recursos visuales utilizados en la web.
+-   **`scripts/`**: Contiene los scripts de cliente para la automatización de las copias de seguridad.
+    -   `linux/backup.sh`: Script en Bash para clientes Linux.
+    -   `windows/backup.ps1`: Script en PowerShell para clientes Windows.
+-   **`.github/workflows/`**: (Opcional) Puede contener workflows de GitHub Actions para automatizar tareas como el despliegue del sitio web o la ejecución de tests.
+-   **`.gitignore`**: Especifica qué archivos no deben ser rastreados por Git (e.g., dependencias, logs, archivos de entorno).
+-   **`LICENSE`**: Archivo de licencia que define los términos de uso y distribución del código.
+-   **`README.md`**: Documentación principal que proporciona una visión general del proyecto y su estructura.
 
-**4. Crear y Configurar el Fichero de Log:**
-```bash
-sudo touch /var/log/backup_server.log
-sudo chown www-data:www-data /var/log/backup_server.log
-```
+## 3. Despliegue en GitHub Pages
 
-**5. Habilitar HTTPS:**
-```bash
-sudo a2enmod ssl headers
-sudo a2ensite default-ssl
-sudo systemctl restart apache2
-```
-*Nota importante sobre seguridad: Para un entorno de producción, es **imprescindible** generar e instalar un certificado SSL/TLS válido (por ejemplo, usando Let's Encrypt). El uso de certificados autofirmados sin la debida configuración de confianza en los clientes puede provocar fallos de conexión. La validación de certificados no debe ser omitida.*
+La memoria del proyecto, contenida en la carpeta `docs/`, puede ser publicada como un sitio web profesional de forma gratuita a través de GitHub Pages.
 
-**6. Proteger el Directorio de Backups:**
-- Crea el fichero `/var/www/backups/.htaccess` con el siguiente contenido:
-```
-Options -Indexes
-AuthType Basic
-AuthName "Acceso Restringido para Técnicos"
-AuthUserFile /etc/apache2/.htpasswd
-Require valid-user
-```
-- Crea el primer usuario técnico (se te pedirá una contraseña):
-```bash
-sudo htpasswd -c /etc/apache2/.htpasswd tecnico1
-```
+Siga estos pasos para el despliegue:
 
-### 3.2. Configuración del Cliente Linux (Bash)
+1.  **Navegue a la configuración del repositorio:** En la página principal de su repositorio en GitHub, haga clic en la pestaña "Settings".
+2.  **Acceda a la sección de "Pages":** En el menú lateral izquierdo, seleccione "Pages".
+3.  **Configure la fuente de despliegue:**
+    -   En la sección "Build and deployment", bajo "Source", seleccione la opción **"Deploy from a branch"**.
+    -   En el desplegable "Branch", asegúrese de que esté seleccionada la rama `main` (o `master`) y, justo al lado, elija la carpeta **`/docs`** como fuente.
+4.  **Guarde los cambios:** Haga clic en el botón "Save".
+5.  **Acceda a su sitio web:** GitHub tardará unos minutos en construir y desplegar su sitio. Una vez listo, la URL de acceso (ej: `https://<tu-usuario>.github.io/<nombre-del-repositorio>/`) aparecerá en la parte superior de la sección "Pages".
 
-**1. Desplegar el Agente:**
-- Copia el script `backup_agent.sh` a una ruta adecuada en el equipo cliente, por ejemplo, `/usr/local/bin/`.
-- Dale permisos de ejecución: `chmod +x /usr/local/bin/backup_agent.sh`.
+## 4. Autor y Licencia
 
-**2. Configurar el Agente:**
-- Edita el script `backup_agent.sh` y ajusta las siguientes variables:
-  - `SOURCE_DIR`: Ruta a la configuración de la central de alarma.
-  - `CLIENTE_ID`: Identificador del cliente.
-  - `SERVER_URL`: URL completa del `upload.php` en el servidor.
-  - `AUTH_TOKEN`: El mismo token secreto que configuraste en el servidor.
-
-**3. Programar la Tarea con `cron`:**
-- Abre el editor de cron: `sudo crontab -e`.
-- Añade una línea para ejecutar el backup diariamente a las 02:00 AM:
-```
-0 2 * * * /usr/local/bin/backup_agent.sh
-```
-
-### 3.3. Configuración del Cliente Windows (PowerShell)
-
-**1. Desplegar el Agente:**
-- Copia el script `Backup-Agent.ps1` a una ruta estable, como `C:\Program Files\BackupAgent\`.
-
-**2. Configurar el Agente:**
-- Edita `Backup-Agent.ps1` y ajusta las variables en la sección de configuración:
-  - `$sourceDir`: Ruta a los ficheros de configuración (ej: `C:\ProgramData\CentralAlarma\config`).
-  - `$clienteId`: Identificador del cliente.
-  - `$serverUrl`: URL del `upload.php`.
-  - `$authToken`: El token secreto del servidor.
-
-**3. Programar la Tarea con el Programador de Tareas:**
-- Abre el "Programador de Tareas" (`taskschd.msc`).
-- Crea una nueva tarea básica:
-  - **Desencadenador:** Diario, a las 02:00 AM.
-  - **Acción:** Iniciar un programa.
-  - **Programa/script:** `powershell.exe`
-  - **Agregar argumentos (opcional):** `-ExecutionPolicy Bypass -File "C:\Program Files\BackupAgent\Backup-Agent.ps1"`
-- Configura la tarea para que se ejecute con los privilegios más altos y aunque el usuario no haya iniciado sesión.
-
----
-
-## 4. Guía de Uso para Técnicos
-
-**Acceso a los Backups:**
-
-1. Abre un navegador web.
-2. Navega a la URL del directorio de backups: `https://<IP_DEL_SERVIDOR>/backups/`.
-3. Se te solicitará un nombre de usuario y una contraseña. Utiliza las credenciales creadas por el administrador del sistema (ej: `tecnico1`).
-4. Una vez autenticado, podrás navegar por la estructura de directorios organizada por cliente y equipo para descargar el fichero de backup que necesites.
-
-**Restauración de una Configuración:**
-
-1. Descarga el fichero `.tar.gz` (Linux) o `.zip` (Windows) correspondiente.
-2. Descomprímelo en una ubicación temporal.
-3. Sigue los procedimientos específicos del software de la central de alarmas para restaurar la configuración desde los ficheros recuperados.
+-   **Autor:** `[Tu Nombre Completo]`
+-   **Curso Académico:** `[Año Académico, ej: 2024-2025]`
+-   **Licencia:** Este proyecto está bajo la [Licencia MIT](LICENSE).

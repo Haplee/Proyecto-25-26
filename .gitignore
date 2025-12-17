@@ -1,0 +1,21 @@
+# Archivos de sistema operativo
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Dependencias
+node_modules/
+dist/
+build/
+
+# Archivos de entorno
+.env
+.env.local
+.env.*.local
+
+# Archivos de configuración de editores
+.vscode/
+.idea/

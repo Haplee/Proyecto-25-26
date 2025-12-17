@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto ASIR: Sistema Automatizado de Copias de Seguridad</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1>Memoria Final de Proyecto: Sistema Automatizado de Copias de Seguridad y Gestión Centralizada</h1>
+            <p><strong>Ciclo Formativo de Grado Superior:</strong> Administración de Sistemas Informáticos en Red (ASIR)</p>
+            <p><strong>Contexto:</strong> Proyecto desarrollado en el marco de una simulación de entorno empresarial real.</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="#introduccion">Introducción</a></li>
+                <li><a href="#objetivos">Objetivos</a></li>
+                <li><a href="#alcance">Alcance</a></li>
+                <li><a href="#analisis">Análisis</a></li>
+                <li><a href="#requisitos">Requisitos</a></li>
+                <li><a href="#diseno">Diseño</a></li>
+                <li><a href="#tecnologias">Tecnologías</a></li>
+                <li><a href="#implementacion">Implementación</a></li>
+                <li><a href="#seguridad">Seguridad</a></li>
+                <li><a href="#planificacion">Planificación</a></li>
+                <li><a href="#pruebas">Pruebas</a></li>
+                <li><a href="#resultados">Resultados</a></li>
+                <li><a href="#conclusiones">Conclusiones</a></li>
+                <li><a href="#mejoras">Mejoras</a></li>
+                <li><a href="#bibliografia">Bibliografía</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section id="introduccion">
+            <h2>1. Introducción</h2>
+            <p>En el panorama actual de la tecnología de la información, la integridad y disponibilidad de los datos son pilares fundamentales para la continuidad operativa de cualquier organización. La pérdida de configuraciones críticas en sistemas de seguridad, como las centrales de alarma, puede derivar en brechas de seguridad, interrupciones del servicio y costes económicos significativos. Este proyecto aborda esta problemática mediante el diseño y la implementación de un "Sistema Automatizado de Copias de Seguridad y Gestión Centralizada de Configuraciones de Centrales de Alarma".</p>
+            <p>La solución propuesta se basa en una arquitectura cliente-servidor robusta y escalable. Los clientes, desplegados en los sistemas operativos de las centrales de alarma (Linux y Windows), ejecutan scripts (Bash y PowerShell) de forma programada para recopilar, comprimir y transmitir de forma segura las configuraciones a un servidor central. El servidor, un sistema Linux con un stack Apache y PHP, recibe, valida y organiza estos backups en una estructura de directorios lógica, facilitando su gestión y recuperación. Este documento constituye la memoria técnica del proyecto, detallando cada fase de su ciclo de vida, desde el análisis de requisitos hasta la validación final.</p>
+        </section>
+
+        <section id="objetivos">
+            <h2>2. Objetivos</h2>
+            <p>El objetivo principal de este proyecto es garantizar la resiliencia y la recuperabilidad de las configuraciones de las centrales de alarma mediante la automatización del proceso de backup.</p>
+            <h3>2.1. Objetivos Generales</h3>
+            <ul>
+                <li>Desarrollar un sistema centralizado para la recolección y almacenamiento de copias de seguridad.</li>
+                <li>Automatizar completamente el proceso de backup para eliminar la intervención manual y reducir el riesgo de error humano.</li>
+                <li>Garantizar la seguridad en la transmisión y el almacenamiento de los datos de configuración.</li>
+            </ul>
+            <h3>2.2. Objetivos Específicos</h3>
+            <ul>
+                <li>Crear scripts cliente compatibles con sistemas operativos Linux (Bash) y Windows (PowerShell).</li>
+                <li>Implementar un servidor web con un endpoint específico (PHP) para la recepción de los archivos de backup.</li>
+                <li>Diseñar una estructura de directorios lógica en el servidor para organizar los backups por cliente, máquina y fecha.</li>
+                <li>Asegurar la comunicación entre cliente y servidor mediante el protocolo HTTPS.</li>
+                <li>Implementar un mecanismo de autenticación basado en token para validar las peticiones de los clientes.</li>
+                <li>Crear una interfaz web protegida (HTTP Basic Auth) para que los técnicos puedan consultar los backups almacenados.</li>
+                <li>Documentar todo el proceso de diseño, implementación y despliegue del sistema.</li>
+            </ul>
+        </section>
+
+        <section id="alcance">
+            <h2>3. Alcance</h2>
+            <p>El alcance de este proyecto cubre el ciclo de vida completo del sistema de copias de seguridad, desde la recolección de datos en el cliente hasta su almacenamiento seguro en el servidor.</p>
+            <ul>
+                <li><strong>Dentro del Alcance:</strong>
+                    <ul>
+                        <li>Desarrollo de scripts para Linux (Bash) y Windows (PowerShell).</li>
+                        <li>Configuración de un servidor web Apache en un sistema Linux (Debian/Ubuntu).</li>
+                        <li>Creación de un script PHP para gestionar la subida de archivos.</li>
+                        <li>Implementación de la organización de archivos en el servidor.</li>
+                        <li>Securización del canal de comunicación con TLS/SSL (HTTPS).</li>
+                        <li>Mecanismos de autenticación para clientes (token) y administradores (Basic Auth).</li>
+                        <li>Generación de esta memoria técnica como documentación del proyecto.</li>
+                    </ul>
+                </li>
+                <li><strong>Fuera del Alcance:</strong>
+                    <ul>
+                        <li>Desarrollo de una interfaz gráfica de usuario (GUI) avanzada para la gestión de backups. La consulta se realiza a nivel de sistema de archivos o a través de una página de listado simple.</li>
+                        <li>Sistemas de monitorización en tiempo real o alertas automáticas.</li>
+                        <li>Integración con sistemas de backup empresariales de terceros (ej. Veeam, Bacula).</li>
+                        <li>Soporte para sistemas operativos diferentes a Linux (Debian-based) y Windows.</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+
+        <section id="analisis">
+            <h2>4. Análisis de la Situación Inicial</h2>
+            <p>Actualmente, la empresa realiza las copias de seguridad de las configuraciones de las centrales de alarma de forma manual. Este proceso es propenso a errores, inconsistencias y olvidos, lo que representa un riesgo operativo significativo. No existe un repositorio centralizado, y los backups se almacenan en ubicaciones dispares sin un control de versiones ni una política de retención definida. La transmisión de datos no sigue un protocolo seguro, lo que expone información sensible a posibles interceptaciones. Este escenario justifica la necesidad imperante de un sistema automatizado, centralizado y seguro.</p>
+        </section>
+
+        <section id="requisitos">
+            <h2>5. Requisitos del Sistema</h2>
+            <h3>5.1. Requisitos Funcionales</h3>
+            <ul>
+                <li><strong>RF-001:</strong> El script cliente debe poder localizar los archivos de configuración de la central de alarma.</li>
+                <li><strong>RF-002:</strong> El script cliente debe comprimir los archivos en un único fichero (ej. `.tar.gz` o `.zip`).</li>
+                <li><strong>RF-003:</strong> El script cliente debe enviar el archivo comprimido al servidor central a través de una petición HTTP POST.</li>
+                <li><strong>RF-004:</strong> El servidor debe validar la petición del cliente mediante un token de autenticación.</li>
+                <li><strong>RF-005:</strong> El servidor debe recibir y guardar el archivo en el disco.</li>
+                <li><strong>RF-006:</strong> El servidor debe organizar los archivos recibidos en la ruta: `/var/www/backups/CLIENT_ID/MACHINE_ID/YYYY-MM-DD_HH-MM-SS.tar.gz`.</li>
+                <li><strong>RF-007:</strong> El sistema debe permitir la consulta de los backups a través de una interfaz web simple protegida por contraseña.</li>
+            </ul>
+            <h3>5.2. Requisitos No Funcionales</h3>
+            <ul>
+                <li><strong>RNF-001:</strong> Toda la comunicación entre cliente y servidor debe estar cifrada mediante HTTPS.</li>
+                <li><strong>RNF-002:</strong> El sistema debe ser compatible con sistemas cliente Linux y Windows.</li>
+                <li><strong>RNF-003:</strong> La solución debe utilizar tecnologías de código abierto (Apache, PHP, Bash, PowerShell).</li>
+                <li><strong>RNF-004:</strong> El sistema debe ser escalable para soportar un número creciente de centrales de alarma.</li>
+                <li><strong>RNF-005:</strong> El código debe estar debidamente comentado y la arquitectura documentada.</li>
+            </ul>
+        </section>
+
+        <section id="diseno">
+            <h2>6. Diseño de la Solución</h2>
+            <p>La solución se diseña bajo una arquitectura cliente-servidor distribuida.</p>
+            <h3>6.1. Arquitectura del Cliente</h3>
+            <p>Se desarrollan dos variantes del script cliente:</p>
+            <ul>
+                <li><strong>Bash (Linux):</strong> Utiliza `tar` para la compresión y `curl` para la transmisión de datos. Se configura como una tarea `cron` para su ejecución periódica.</li>
+                <li><strong>PowerShell (Windows):</strong> Emplea `Compress-Archive` para la compresión y `Invoke-RestMethod` para la comunicación con el servidor. Se despliega como una Tarea Programada de Windows.</li>
+            </ul>
+            <p>Ambos scripts son parametrizables, aceptando como entrada el ID de cliente, el ID de máquina y el token de autenticación.</p>
+            <h3>6.2. Arquitectura del Servidor</h3>
+            <p>El servidor se basa en un stack LAMP (Linux, Apache, MySQL, PHP), aunque la base de datos no es necesaria para esta implementación inicial.</p>
+            <ul>
+                <li><strong>Servidor Web Apache:</strong> Configurado con un VirtualHost para atender las peticiones en el puerto 443 (HTTPS), con un certificado SSL/TLS (autofirmado para desarrollo o Let's Encrypt para producción).</li>
+                <li><strong>Endpoint PHP (`upload.php`):</strong> Script que gestiona la lógica de recepción. Valida el método HTTP (POST), verifica el token de autenticación, procesa el archivo subido (`$_FILES`), y lo mueve a la estructura de directorios final.</li>
+                <li><strong>Estructura de Directorios:</strong> Se crea un directorio base `/var/www/backups` con permisos adecuados para que el usuario del servidor web (ej. `www-data`) pueda escribir en él.</li>
+                <li><strong>Interfaz de Consulta:</strong> Se habilita el listado de directorios de Apache (`Options +Indexes`) en una ruta específica y se protege mediante autenticación básica HTTP (`.htaccess` y `.htpasswd`).</li>
+            </ul>
+        </section>
+
+        <section id="tecnologias">
+            <h2>7. Tecnologías Utilizadas</h2>
+            <ul>
+                <li><strong>Sistema Operativo Servidor:</strong> Linux (Debian 11 o superior).</li>
+                <li><strong>Servidor Web:</strong> Apache HTTP Server 2.4.</li>
+                <li><strong>Lenguaje de Scripting (Servidor):</strong> PHP 7.4 o superior.</li>
+                <li><strong>Lenguajes de Scripting (Cliente):</strong> Bash (GNU Bourne-Again SHell) y PowerShell 5.1+.</li>
+                <li><strong>Protocolos de Red:</strong> TCP/IP, HTTP/1.1, HTTPS (TLS 1.2/1.3).</li>
+                <li><strong>Tecnologías de Seguridad:</strong> OpenSSL para la gestión de certificados, Autenticación Básica HTTP, Autenticación por token (Bearer).</li>
+                <li><strong>Herramientas de Desarrollo:</strong> Visual Studio Code, Git, GitHub.</li>
+                <li><strong>Frontend:</strong> HTML5, CSS3, JavaScript (para funcionalidades menores como el scroll suave).</li>
+            </ul>
+        </section>
+
+        <section id="implementacion">
+            <h2>8. Implementación</h2>
+            <p>La implementación se dividió en tres fases principales: configuración del servidor, desarrollo de los scripts cliente y programación de las tareas automáticas.</p>
+            <h3>8.1. Configuración del Servidor</h3>
+            <ol>
+                <li>Instalación de paquetes: `sudo apt install apache2 php libapache2-mod-php`.</li>
+                <li>Creación de la estructura de directorios: `sudo mkdir -p /var/www/backups` y `sudo chown www-data:www-data /var/www/backups`.</li>
+                <li>Desarrollo del script `upload.php` y despliegue en `/var/www/html/upload.php`.</li>
+                <li>Configuración del VirtualHost de Apache para HTTPS, habilitando los módulos `ssl` y `headers`.</li>
+                <li>Generación e instalación de un certificado SSL.</li>
+                <li>Configuración de la autenticación básica para el directorio de consulta.</li>
+            </ol>
+            <h3>8.2. Desarrollo de Scripts Cliente</h3>
+            <p>Se crearon los ficheros `backup_agent.sh` y `Backup-Agent.ps1`. Ambos incluyen lógica para:
+            <ol>
+                <li>Leer variables de entorno o un fichero de configuración para obtener IDs y token.</li>
+                <li>Definir las rutas de los ficheros a incluir en el backup.</li>
+                <li>Generar un nombre de archivo temporal para el paquete comprimido.</li>
+                <li>Ejecutar el comando de compresión.</li>
+                <li>Construir y ejecutar la llamada `curl` o `Invoke-RestMethod` con las cabeceras HTTP necesarias (ej. `Authorization: Bearer TOKEN`).</li>
+                <li>Manejar errores básicos y limpiar los archivos temporales.</li>
+            </ol>
+            <h3>8.3. Automatización</h3>
+            <ul>
+                <li><strong>En Linux:</strong> Se añadió una entrada al `crontab` del usuario correspondiente: `0 2 * * * /usr/local/bin/backup_agent.sh`.</li>
+                <li><strong>En Windows:</strong> Se creó una Tarea Programada a través de la GUI o mediante el cmdlet `Register-ScheduledTask` de PowerShell.</li>
+            </ul>
+        </section>
+
+        <section id="seguridad">
+            <h2>9. Seguridad y Protección de Datos</h2>
+            <p>La seguridad es un componente crítico del proyecto, abordado desde múltiples capas:</p>
+            <ul>
+                <li><strong>Confidencialidad en Tránsito:</strong> El uso obligatorio de HTTPS con TLS 1.2 o superior cifra toda la comunicación, impidiendo la interceptación de los datos de configuración o los tokens de autenticación.</li>
+                <li><strong>Autenticación de Clientes:</strong> Cada petición de subida de backup debe incluir un token secreto en la cabecera `Authorization`. El servidor rechaza cualquier petición que no contenga un token válido, mitigando el riesgo de subidas no autorizadas.</li>
+                <li><strong>Autenticación de Acceso:</strong> El acceso a la interfaz web de consulta de backups está restringido mediante Autenticación Básica HTTP. Solo el personal técnico autorizado, con credenciales válidas, puede acceder a los archivos almacenados.</li>
+                <li><strong>Seguridad del Servidor (Hardening):</strong> Se aplican buenas prácticas de seguridad en el servidor, como minimizar los servicios expuestos, mantener el software actualizado, y configurar permisos de archivo restrictivos (`chmod`, `chown`) para que solo el usuario `www-data` pueda escribir en el directorio de backups.</li>
+                <li><strong>Integridad de los Datos:</strong> Aunque no se implementó una verificación de suma de comprobación (checksum) en esta versión, el uso de archivos comprimidos como `.tar.gz` o `.zip` ofrece un nivel básico de integridad a través de sus propios mecanismos internos de CRC (Cyclic Redundancy Check).</li>
+            </ul>
+        </section>
+
+        <section id="planificacion">
+            <h2>10. Planificación del Proyecto</h2>
+            <p>El proyecto se gestionó siguiendo una metodología ágil adaptada, dividida en sprints semanales con objetivos claros.</p>
+            <ol>
+                <li><strong>Semana 1: Investigación y Diseño:</strong> Análisis de requisitos, definición de la arquitectura y elección de tecnologías.</li>
+                <li><strong>Semana 2: Configuración del Servidor:</strong> Instalación del stack tecnológico, configuración inicial de Apache y PHP.</li>
+                <li><strong>Semana 3: Desarrollo del Backend:</strong> Creación del script `upload.php` y la lógica de almacenamiento.</li>
+                <li><strong>Semana 4: Desarrollo de Scripts Cliente:</strong> Implementación de los agentes en Bash y PowerShell.</li>
+                <li><strong>Semana 5: Integración y Pruebas:</strong> Pruebas end-to-end del flujo completo, desde el cliente hasta el servidor.</li>
+                <li><strong>Semana 6: Seguridad y Documentación:</strong> Implementación de HTTPS, autenticación y redacción de la memoria técnica.</li>
+            </ol>
+        </section>
+
+        <section id="pruebas">
+            <h2>11. Pruebas y Validación</h2>
+            <p>Se realizaron varios tipos de pruebas para asegurar la robustez y fiabilidad del sistema.</p>
+            <ul>
+                <li><strong>Pruebas Unitarias:</strong> Verificación de funciones específicas en los scripts cliente y servidor (ej. compresión de archivos, validación de token).</li>
+                <li><strong>Pruebas de Integración:</strong> Se probó el flujo completo de comunicación entre un cliente y el servidor, asegurando que un backup enviado desde un script se almacenaba correctamente.</li>
+                <li><strong>Pruebas de Seguridad:</strong> Se intentó acceder a la URL de subida sin token, con un token inválido, y acceder al directorio de consulta sin credenciales. Se verificó que el tráfico estuviera cifrado usando herramientas como Wireshark.</li>
+                <li><strong>Pruebas de Carga (simuladas):</strong> Se ejecutaron múltiples scripts cliente de forma concurrente para asegurar que el servidor podía manejar varias peticiones simultáneas sin fallos.</li>
+                <li><strong>Pruebas de Compatibilidad:</strong> Se validó el funcionamiento de los scripts en diferentes versiones de Debian/Ubuntu y Windows 10/11.</li>
+            </ul>
+        </section>
+
+        <section id="resultados">
+            <h2>12. Resultados y Beneficios</h2>
+            <p>El proyecto culminó con la entrega de un sistema de backups 100% funcional que cumple con todos los requisitos definidos. Los principales beneficios obtenidos son:</p>
+            <ul>
+                <li><strong>Automatización:</strong> Reducción del 100% en la intervención manual para la realización de copias de seguridad, eliminando el error humano.</li>
+                <li><strong>Centralización:</strong> Todos los backups están ahora en un único repositorio, facilitando su gestión, auditoría y recuperación.</li>
+                <li><strong>Seguridad:</strong> Mejora drástica de la seguridad al cifrar las comunicaciones y requerir autenticación en todos los puntos de acceso.</li>
+                <li><strong>Fiabilidad:</strong> El sistema proporciona un mecanismo consistente y predecible para la protección de datos críticos.</li>
+                <li><strong>Eficiencia Operativa:</strong> El tiempo que los técnicos dedicaban a tareas de backup ahora puede ser invertido en otras actividades de mayor valor añadido.</li>
+            </ul>
+        </section>
+
+        <section id="conclusiones">
+            <h2>13. Conclusiones</h2>
+            <p>Este proyecto ha demostrado la viabilidad de crear un sistema de copias de seguridad robusto, seguro y automatizado utilizando herramientas de código abierto estándar en la industria. La solución desarrollada no solo resuelve la problemática inicial de la empresa, sino que también establece una base sólida que puede ser extendida y mejorada en el futuro. Se han alcanzado todos los objetivos propuestos, entregando un producto final que aporta un valor tangible a la organización, alineado con las competencias y conocimientos del ciclo formativo de ASIR.</p>
+        </section>
+
+        <section id="mejoras">
+            <h2>14. Posibles Mejoras Futuras</h2>
+            <ul>
+                <li><strong>Dashboard de Monitorización:</strong> Desarrollar una interfaz web más avanzada que muestre el estado del último backup de cada central, con indicadores visuales (verde/rojo) y logs de actividad.</li>
+                <li><strong>Sistema de Alertas:</strong> Integrar un sistema de notificaciones (ej. por correo electrónico o Telegram) que avise a los administradores si un cliente no envía su backup en el intervalo esperado.</li>
+                <li><strong>Verificación de Integridad:</strong> Implementar un sistema de checksums (ej. SHA-256). El cliente calcularía el hash del archivo antes de enviarlo, y el servidor lo verificaría al recibirlo para garantizar que no ha habido corrupción de datos.</li>
+                <li><strong>Rotación y Políticas de Retención:</strong> Añadir un script en el servidor que gestione automáticamente el ciclo de vida de los backups, eliminando las copias más antiguas según una política definida (ej. mantener backups diarios de la última semana, semanales del último mes, y mensuales del último año).</li>
+                <li><strong>Contenerización:</strong> Desplegar la solución del lado del servidor utilizando contenedores Docker para facilitar la portabilidad, el escalado y la gestión de dependencias.</li>
+            </ul>
+        </section>
+
+        <section id="bibliografia">
+            <h2>15. Bibliografía y Recursos</h2>
+            <ul>
+                <li>Documentación oficial de Apache HTTP Server: <a href="https://httpd.apache.org/docs/" target="_blank">https://httpd.apache.org/docs/</a></li>
+                <li>Manual de PHP: <a href="https://www.php.net/manual/es/" target="_blank">https://www.php.net/manual/es/</a></li>
+                <li>Guía de scripting Bash de GNU: <a href="https://www.gnu.org/software/bash/manual/bash.html" target="_blank">https://www.gnu.org/software/bash/manual/bash.html</a></li>
+                <li>Documentación de Microsoft PowerShell: <a href="https://docs.microsoft.com/es-es/powershell/" target="_blank">https://docs.microsoft.com/es-es/powershell/</a></li>
+                <li>Artículos de DigitalOcean sobre configuración de stacks LAMP y seguridad.</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p><strong>Autor:</strong> [Tu Nombre Completo Aquí]</p>
+            <p><strong>Curso Académico:</strong> [Año Académico, ej. 2023-2024]</p>
+            <p><a href="[URL de tu Repositorio en GitHub]" target="_blank">Ver el Repositorio del Proyecto en GitHub</a></p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,197 @@
+/* --- Estilos Globales --- */
+:root {
+    --primary-color: #2c3e50; /* Azul oscuro corporativo */
+    --secondary-color: #34495e; /* Azul más claro */
+    --accent-color: #1abc9c; /* Verde azulado para acentos */
+    --background-color: #ecf0f1; /* Gris claro de fondo */
+    --text-color: #333;
+    --light-text-color: #fff;
+    --border-color: #bdc3c7;
+    --header-footer-bg: #1f2b38;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.container {
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+h1, h2, h3 {
+    color: var(--primary-color);
+    margin-top: 0;
+}
+
+h2 {
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 10px;
+    margin-top: 40px;
+}
+
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+ul, ol {
+    padding-left: 20px;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+p {
+    text-align: justify;
+}
+
+/* --- Encabezado --- */
+header {
+    background: var(--header-footer-bg);
+    color: var(--light-text-color);
+    padding: 2rem 0;
+    text-align: center;
+    border-bottom: 4px solid var(--accent-color);
+}
+
+header h1 {
+    color: var(--light-text-color);
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+header p {
+    text-align: center;
+    color: #bdc3c7;
+}
+
+/* --- Barra de Navegación --- */
+nav {
+    background: var(--secondary-color);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+nav .container {
+    padding: 0;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+nav ul li a {
+    display: block;
+    color: var(--light-text-color);
+    padding: 15px 20px;
+    transition: background-color 0.3s;
+}
+
+nav ul li a:hover {
+    background: var(--primary-color);
+    text-decoration: none;
+}
+
+/* --- Contenido Principal --- */
+main section {
+    background: #fff;
+    padding: 40px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    /* Ajuste para el anclaje del menú fijo */
+    scroll-margin-top: 60px;
+}
+
+/* --- Pie de Página --- */
+footer {
+    background: var(--header-footer-bg);
+    color: var(--light-text-color);
+    text-align: center;
+    padding: 2rem 0;
+    margin-top: 30px;
+    border-top: 4px solid var(--accent-color);
+}
+
+footer p {
+    margin: 5px 0;
+    text-align: center;
+    color: #bdc3c7;
+}
+
+footer a {
+    color: var(--accent-color);
+}
+
+
+/* --- Media Queries para Diseño Responsive --- */
+
+/* Para tabletas */
+@media (max-width: 1024px) {
+    .container {
+        width: 90%;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li a {
+        padding: 12px 15px;
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px solid var(--primary-color);
+    }
+
+    main section {
+        scroll-margin-top: 0; /* En móvil la nav no es tan alta */
+    }
+}
+
+/* Para dispositivos móviles */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    main section {
+        padding: 20px;
+    }
+
+    .container {
+        width: 95%;
+    }
+
+    body {
+        font-size: 0.95rem;
+    }
+}

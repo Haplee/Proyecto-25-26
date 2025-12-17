@@ -1,55 +1,73 @@
-# Memoria Final ASIR: Sistema Automatizado de Copias de Seguridad
+# Proyecto ASIR: Sistema Automatizado de Copias de Seguridad y Gestión Centralizada
 
-Este repositorio contiene la memoria final del proyecto de Grado Superior en **Administración de Sistemas Informáticos en Red (ASIR)**. La memoria se presenta en formato de una página web estática, profesional y auto-contenida, lista para su publicación.
+## 1. Descripción del Proyecto
 
-## Descripción del Proyecto
+Este repositorio contiene todos los artefactos del proyecto final del Ciclo Formativo de Grado Superior en **Administración de Sistemas Informáticos en Red (ASIR)**. El proyecto consiste en el diseño e implementación de un sistema centralizado para la gestión y automatización de copias de seguridad de configuraciones de centrales de alarma.
 
-El proyecto consiste en el diseño, implementación y documentación de un **"Sistema Automatizado de Copias de Seguridad y Gestión Centralizada de Configuraciones de Centrales de Alarma"**. La solución aborda la necesidad crítica de proteger y asegurar la recuperabilidad de las configuraciones de sistemas de seguridad en un entorno empresarial simulado.
+El sistema se compone de dos elementos principales:
+-   **Scripts de Cliente:** Agentes ligeros diseñados para ejecutarse en sistemas Windows y Linux, responsables de recopilar, comprimir y enviar las configuraciones al servidor central.
+-   **Servidor de Gestión:** Un servidor web central que recibe, organiza y almacena de forma segura las copias de seguridad enviadas por los clientes.
 
-La arquitectura se basa en un modelo cliente-servidor:
--   **Clientes Ligeros:** Scripts en Bash (para sistemas Linux) y PowerShell (para sistemas Windows) se encargan de recolectar los archivos de configuración, comprimirlos y enviarlos de forma segura al servidor central.
--   **Servidor Central:** Un servidor Linux con un stack Apache/PHP actúa como punto final para recibir los backups. Implementa un script PHP que valida las peticiones mediante un token de autenticación y organiza los archivos recibidos en una estructura de directorios lógica (`CLIENT_ID/MACHINE_ID/TIMESTAMP`).
+La memoria técnica completa del proyecto está documentada en un sitio web estático profesional, también incluido en este repositorio y diseñado para ser desplegado a través de GitHub Pages.
 
-Esta página web actúa como la documentación técnica completa del proyecto, detallando cada fase del ciclo de vida del mismo: análisis, diseño, tecnologías, implementación, seguridad, pruebas y conclusiones.
+## 2. Estructura del Repositorio
 
-## Tecnologías Utilizadas
-
-La página web de la memoria ha sido desarrollada utilizando exclusivamente tecnologías frontend estándar, sin dependencias de frameworks o sistemas de backend, para garantizar la máxima portabilidad y facilidad de despliegue.
-
--   **HTML5:** Para la estructura semántica del contenido.
--   **CSS3:** Para el diseño visual, incluyendo el uso de Flexbox, Media Queries para el diseño responsive y variables CSS para una fácil personalización.
--   **JavaScript (ligero):** Utilizado únicamente para mejorar la experiencia de usuario, como el desplazamiento suave (smooth scroll) en el menú de navegación.
--   **Google Fonts:** Para la importación de tipografías profesionales (Roboto).
-
-## Estructura del Repositorio
-
-La estructura de archivos está pensada para ser clara, mantenible y compatible directamente con el despliegue en servicios como GitHub Pages.
+El repositorio está organizado siguiendo buenas prácticas para garantizar la claridad, mantenibilidad y escalabilidad del proyecto.
 
 ```
-/
-├── index.html       # Fichero principal con todo el contenido de la memoria.
-├── css/
-│   └── style.css    # Hoja de estilos que define el aspecto visual de la web.
-├── js/
-│   └── script.js    # Script para funcionalidades adicionales de UX.
-└── README.md        # Este mismo archivo.
+.
+├── .github/              # (Opcional) Workflows de CI/CD para automatización.
+│   └── workflows/
+│       └── deploy.yml
+├── docs/                 # Contiene el sitio web estático de la memoria del proyecto.
+│   ├── assets/           # Recursos como imágenes, logos, etc.
+│   │   └── images/
+│   ├── css/              # Hojas de estilo CSS.
+│   │   └── style.css
+│   ├── js/               # Scripts de JavaScript (funcionalidad ligera).
+│   │   └── script.js
+│   └── index.html        # Fichero principal de la memoria del proyecto.
+├── scripts/              # Scripts de automatización para los clientes.
+│   ├── linux/            # Scripts para sistemas operativos basados en Linux.
+│   │   └── backup.sh
+│   └── windows/          # Scripts para sistemas operativos Windows.
+│       └── backup.ps1
+├── .gitignore            # Ficheros y carpetas a ignorar por Git.
+├── LICENSE               # Licencia del proyecto (MIT).
+└── README.md             # Este archivo.
 ```
 
-## Cómo Publicar en GitHub Pages
+### Descripción de Carpetas y Archivos
 
-Puedes publicar esta memoria como un sitio web público de forma gratuita y sencilla siguiendo estos pasos:
+-   **`docs/`**: Directorio raíz del sitio web estático. El contenido de esta carpeta está configurado para ser servido directamente por GitHub Pages.
+    -   `index.html`: Punto de entrada de la web, contiene toda la memoria técnica.
+    -   `css/style.css`: Define la apariencia visual y el diseño responsive.
+    -   `js/script.js`: Añade funcionalidades interactivas menores, como el scroll suave.
+    -   `assets/images/`: Almacena las imágenes y otros recursos visuales utilizados en la web.
+-   **`scripts/`**: Contiene los scripts de cliente para la automatización de las copias de seguridad.
+    -   `linux/backup.sh`: Script en Bash para clientes Linux.
+    -   `windows/backup.ps1`: Script en PowerShell para clientes Windows.
+-   **`.github/workflows/`**: (Opcional) Puede contener workflows de GitHub Actions para automatizar tareas como el despliegue del sitio web o la ejecución de tests.
+-   **`.gitignore`**: Especifica qué archivos no deben ser rastreados por Git (e.g., dependencias, logs, archivos de entorno).
+-   **`LICENSE`**: Archivo de licencia que define los términos de uso y distribución del código.
+-   **`README.md`**: Documentación principal que proporciona una visión general del proyecto y su estructura.
 
-1.  **Sube el código a GitHub:** Asegúrate de que todos los archivos (`index.html`, las carpetas `css` y `js`, etc.) están subidos a tu repositorio de GitHub.
+## 3. Despliegue en GitHub Pages
 
-2.  **Ve a la Configuración:** Dentro de tu repositorio en GitHub, haz clic en la pestaña **"Settings"**.
+La memoria del proyecto, contenida en la carpeta `docs/`, puede ser publicada como un sitio web profesional de forma gratuita a través de GitHub Pages.
 
-3.  **Accede a la sección "Pages":** En el menú lateral izquierdo, busca y haz clic en la opción **"Pages"**.
+Siga estos pasos para el despliegue:
 
-4.  **Configura la Fuente de Despliegue:**
-    -   En la sección "Build and deployment", bajo "Source", selecciona la opción **"Deploy from a branch"**.
-    -   A continuación, en la sección "Branch", asegúrate de que esté seleccionada tu rama principal (normalmente `main` o `master`).
-    -   Elige la carpeta `/(root)` y haz clic en **"Save"**.
+1.  **Navegue a la configuración del repositorio:** En la página principal de su repositorio en GitHub, haga clic en la pestaña "Settings".
+2.  **Acceda a la sección de "Pages":** En el menú lateral izquierdo, seleccione "Pages".
+3.  **Configure la fuente de despliegue:**
+    -   En la sección "Build and deployment", bajo "Source", seleccione la opción **"Deploy from a branch"**.
+    -   En el desplegable "Branch", asegúrese de que esté seleccionada la rama `main` (o `master`) y, justo al lado, elija la carpeta **`/docs`** como fuente.
+4.  **Guarde los cambios:** Haga clic en el botón "Save".
+5.  **Acceda a su sitio web:** GitHub tardará unos minutos en construir y desplegar su sitio. Una vez listo, la URL de acceso (ej: `https://<tu-usuario>.github.io/<nombre-del-repositorio>/`) aparecerá en la parte superior de la sección "Pages".
 
-5.  **¡Listo!** GitHub tardará uno o dos minutos en construir y desplegar tu sitio. Una vez que termine, aparecerá un mensaje de confirmación con la URL pública de tu página (por ejemplo: `https://TU_USUARIO.github.io/NOMBRE_DEL_REPOSITORIO/`).
+## 4. Autor y Licencia
 
-Con estos pasos, tu proyecto final estará presentado de una forma profesional y accesible para cualquiera.
+-   **Autor:** `[Tu Nombre Completo]`
+-   **Curso Académico:** `[Año Académico, ej: 2024-2025]`
+-   **Licencia:** Este proyecto está bajo la [Licencia MIT](LICENSE).

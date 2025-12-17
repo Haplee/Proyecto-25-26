@@ -24,4 +24,56 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // --- Lógica combinada para Scrollspy y botón Scroll-to-Top ---
+    const sections = document.querySelectorAll('main section[id]');
+    const nav = document.querySelector('nav');
+    const navHeight = nav ? nav.offsetHeight : 0;
+    const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+    function handleScroll() {
+        const scrollPosition = window.scrollY;
+
+        // 1. Lógica del Scrollspy para resaltar la navegación
+        let currentSectionId = '';
+        sections.forEach(section => {
+            // Se considera una sección como activa si su parte superior ha pasado el punto de referencia (la parte superior de la vista menos la altura de la navegación)
+            const sectionTop = section.offsetTop - navHeight - 1; // 1px de buffer
+            if (scrollPosition >= sectionTop) {
+                currentSectionId = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${currentSectionId}`) {
+                link.classList.add('active');
+            }
+        });
+
+        // 2. Lógica del botón para volver arriba
+        if (scrollToTopBtn) {
+            if (scrollPosition > 300) {
+                scrollToTopBtn.classList.add('is-visible');
+            } else {
+                scrollToTopBtn.classList.remove('is-visible');
+            }
+        }
+    }
+
+    // Añadir el listener una sola vez para mejorar el rendimiento
+    window.addEventListener('scroll', handleScroll);
+
+    // Ejecutar una vez al cargar para establecer el estado inicial
+    handleScroll();
+
+    // Lógica del clic para el botón de volver arriba (si existe)
+    if (scrollToTopBtn) {
+        scrollToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
 });

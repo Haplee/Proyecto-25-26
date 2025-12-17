@@ -24,4 +24,27 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // --- Lógica para el botón de Scroll-to-Top ---
+
+    const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+    if (scrollToTopBtn) {
+        // Muestra u oculta el botón basado en la posición del scroll, usando una clase CSS.
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                scrollToTopBtn.classList.add('is-visible');
+            } else {
+                scrollToTopBtn.classList.remove('is-visible');
+            }
+        });
+
+        // Cuando se hace clic en el botón, desplaza la página a la parte superior.
+        scrollToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth' // Desplazamiento suave.
+            });
+        });
+    }
 });

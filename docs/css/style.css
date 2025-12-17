@@ -149,7 +149,6 @@ footer a {
 
 /* --- Botón Scroll-to-Top --- */
 #scrollToTopBtn {
-    display: none; /* Oculto por defecto */
     position: fixed;
     bottom: 20px;
     right: 30px;
@@ -167,9 +166,19 @@ footer a {
     height: 50px;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s, opacity 0.4s, visibility 0.4s;
+
+    /* Estado inicial (oculto) */
     opacity: 0;
     visibility: hidden;
+    transform: translateY(20px); /* Desplazado hacia abajo */
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, visibility 0.3s;
+}
+
+#scrollToTopBtn.is-visible {
+    /* Estado final (visible) */
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0); /* Posición original */
 }
 
 #scrollToTopBtn:hover {
